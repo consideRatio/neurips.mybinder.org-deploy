@@ -1,0 +1,9 @@
+apiVersion: v1
+name: neurips-mybinder-org
+version: 0.1.0
+description: A chart composing the charts required for the NeurIPS BinderHub deployment.
+sources:
+  - https://github.com/consideratio/neurips.mybinder.org-deploy
+maintainers:
+  - name: consideRatio
+    email: erik.i.sundell@gmail.com

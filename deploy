@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -eu # exit on error or unset variable
+
+# Cluster details
+REGION=us-east1
+CLUSTER=neurips
+PROJECT=binder-prod
+
+# Helm details
+NAMESPACE=neurips
+RELEASE=neurips
+CHART_LOCAL_PATH="."
+TIMEOUT=900
+
+# Permission details
+gcloud config set compute/region $REGION
+gcloud config set container/cluster $CLUSTER
+gcloud config set core/project $PROJECT
+
+helm repo add binderhub https://jupyterhub.github.io/helm-chart
+helm dependency update .
+helm upgrade $RELEASE --install $CHART_LOCAL_PATH \
+  --namespace $NAMESPACE \
+  --values secrets/values.yaml \
+  --values values.yaml \
+  --timeout $TIMEOUT

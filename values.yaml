@@ -1,0 +1,59 @@
+# Values for the parent chart, passed to subcharts
+
+letsencrypt:
+  contactEmail: erik.i.sundell@gmail.com
+
+# Default values: https://github.com/jupyterhub/binderhub/blob/master/helm-chart/binderhub/values.yaml
+binderhub:
+  config:
+    BinderHub:
+      use_registry: true
+      image_prefix: gcr.io/binder-prod/neurips-
+
+  ingress:
+    enabled: true
+    annotations:
+      # cert-manager provides a TLS secret
+      kubernetes.io/tls-acme: "true"
+      # nginx-ingress controller to be utilized instead of "gce"
+      kubernetes.io/ingress.class: nginx
+    tls:
+      - secretName: neurips-mybinder-org-tls
+        hosts:
+          - neurips.mybinder.org
+
+  # Default values: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml
+  jupyterhub:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        kubernetes.io/ingress.class: nginx
+      tls:
+        - secretName: hub-neurips-mybinder-org-tls
+          hosts:
+            - hub.neurips.mybinder.org
+    scheduling: {}
+      #podPriority:
+      #  enabled: true
+      #userScheduler:
+      #  enabled: true
+    singleuser: {}
+      # extraConfig: profile_list etc...
+
+# Default values: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml
+nginx-ingress:
+  controller:
+    service:
+      # I reserved an regional ip address in us-east1...
+      # > gcloud compute addresses create neurips-mybinder-org --region us-east1
+      # ... and inspected what address got ...
+      # > gcloud compute addresses list
+      # ... and assigned the IP to the field below
+      loadBalancerIP: 35.190.132.172
+
+# Default values: https://github.com/helm/charts/blob/master/stable/cert-manager/values.yaml
+cert-manager:
+  defaultIssuerName: "neurips"
+  defaultIssuerKind: "ClusterIssuer"
+  defaultACMEChallengeType: "http01"
