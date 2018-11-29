@@ -4,8 +4,8 @@ kind: ClusterIssuer
 metadata:
   name: neurips
   labels:
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ include "neurips.chart" . }}
+    app.kubernetes.io/name: {{ include "neurips.name" . }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:

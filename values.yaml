@@ -7,16 +7,22 @@ letsencrypt:
 binderhub:
   config:
     BinderHub:
+      hub_url: 'https://hub.neurips.mybinder.org'
       use_registry: true
       image_prefix: gcr.io/binder-prod/neurips-
+
+  service:
+    type: ClusterIP
 
   ingress:
     enabled: true
     annotations:
       # cert-manager provides a TLS secret
       kubernetes.io/tls-acme: "true"
-      # nginx-ingress controller to be utilized instead of "gce"
+      # nginx-ingress controller to be explicitly utilized instead of "gce"
       kubernetes.io/ingress.class: nginx
+    hosts:
+      - neurips.mybinder.org
     tls:
       - secretName: neurips-mybinder-org-tls
         hosts:
@@ -24,11 +30,17 @@ binderhub:
 
   # Default values: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml
   jupyterhub:
+    proxy:
+      service:
+        type: ClusterIP
     ingress:
       enabled: true
       annotations:
         kubernetes.io/tls-acme: "true"
         kubernetes.io/ingress.class: nginx
+        ingress.kubernetes.io/proxy-body-size: 64m
+      hosts:
+        - hub.neurips.mybinder.org
       tls:
         - secretName: hub-neurips-mybinder-org-tls
           hosts:
@@ -51,9 +63,13 @@ nginx-ingress:
       # > gcloud compute addresses list
       # ... and assigned the IP to the field below
       loadBalancerIP: 35.190.132.172
+  config:
+    # Allow POSTs of upto 64MB, for large notebook support.
+    proxy-body-size: 64m
 
 # Default values: https://github.com/helm/charts/blob/master/stable/cert-manager/values.yaml
 cert-manager:
-  defaultIssuerName: "neurips"
-  defaultIssuerKind: "ClusterIssuer"
-  defaultACMEChallengeType: "http01"
+  ingressShim:
+    defaultIssuerName: "neurips"
+    defaultIssuerKind: "ClusterIssuer"
+    defaultACMEChallengeType: "http01"
