@@ -32,8 +32,9 @@ binderhub:
   jupyterhub:
     hub:
       extraConfig:
-        startup: |-
-          c.Spawner.cmd = ['jupyter-labhub']
+        gpus-for-all: |
+          c.KubeSpawner.extra_resource_guarantees = {"nvidia.com/gpu": "1"}
+          c.KubeSpawner.extra_resource_limits = {"nvidia.com/gpu": "1"}
     proxy:
       service:
         type: ClusterIP
@@ -61,14 +62,11 @@ binderhub:
         nodeAffinity:
           matchNodePurpose: require
     singleuser:
-      defaultUrl: "/lab"
-      extraEnv:
-        NBGITPULLER_APP: lab
       memory:
-        limit: 16G
-        guarantee: 0.5G
+        limit: 7G
+        guarantee: 1G
       cpu:
-        limit: 4
+        limit: 2
         guarantee: 0.05
 
 # Default values: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml
