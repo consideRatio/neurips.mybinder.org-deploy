@@ -63,6 +63,7 @@ binderhub:
       # using this as singleuser's image instead as that will always be pulled
       extraImages:
         # an init-container that we use
+        # It's only 3MB, ah well...
         # see: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues/1046
         initImage:
           name: minrk/tc-init
