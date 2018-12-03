@@ -26,4 +26,5 @@ helm upgrade $RELEASE --install $CHART_LOCAL_PATH \
   --namespace $NAMESPACE \
   --values secrets/values.yaml \
   --values values.yaml \
-  --timeout $TIMEOUT
+  --timeout $TIMEOUT \
+  --force
