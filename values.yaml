@@ -77,7 +77,7 @@ binderhub:
 
     hub:
       extraConfig: {}
-      activeServerLimit: 30
+      activeServerLimit: 5
       networkPolicy:
         enabled: true
     proxy:
