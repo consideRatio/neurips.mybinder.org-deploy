@@ -37,6 +37,17 @@ binderhub:
         hosts:
           - neurips.mybinder.org
 
+  networkPolicy:
+    enabled: true
+    egress:
+      tcpPorts:
+        - 80 # http
+        - 443 # https
+        - 9418 # git
+        - 873 # rsync
+        - 1094 # xroot
+      cidr: 0.0.0.0/0
+
   # Default values: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml
   jupyterhub:
     cull:
@@ -61,9 +72,13 @@ binderhub:
     hub:
       extraConfig: {}
       activeServerLimit: 30
+      networkPolicy:
+        enabled: true
     proxy:
       service:
         type: ClusterIP
+      networkPolicy:
+        enabled: true
     ingress:
       enabled: true
       annotations:
@@ -110,6 +125,9 @@ binderhub:
             capabilities:
               add:
                 - NET_ADMIN
+      networkPolicy:
+        enabled: true
+        egress: []
       storage:
         # allows us to configure jupyter notebook
         extraVolumes:
