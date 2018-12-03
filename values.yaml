@@ -30,11 +30,20 @@ binderhub:
 
   # Default values: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml
   jupyterhub:
+    prePuller:
+      continuous:
+        enabled: true
+      #using this as singleuser's image instead as that will always be pulled
+      #extraImages:
+      #  demo1:
+      #    name: some-demo-image
+      #    tag: a-tag
+      #  demo2:
+      #    name: some-demo-image
+      #    tag: a-tag
+
     hub:
-      extraConfig:
-        gpus-for-all: |
-          c.KubeSpawner.extra_resource_guarantees = {"nvidia.com/gpu": "1"}
-          c.KubeSpawner.extra_resource_limits = {"nvidia.com/gpu": "1"}
+      extraConfig: {}
     proxy:
       service:
         type: ClusterIP
@@ -65,12 +74,23 @@ binderhub:
         nodeAffinity:
           matchNodePurpose: require
     singleuser:
+      image:
+        # this image is not supposed to be started, but it's
+        # nice to get it pulled ahead of time to reduce pull
+        # time of other images depending on it
+        name: buildpack-deps
+        tag: bionic
       memory:
         limit: 13G
         guarantee: 1G
       cpu:
         limit: 2
         guarantee: 0.05
+      extraResource:
+        limits:
+          "nvidia.com/gpu": 1
+        guarantees:
+          "nvidia.com/gpu": 1
 
 # Default values: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml
 nginx-ingress:
