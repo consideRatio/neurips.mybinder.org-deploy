@@ -74,6 +74,9 @@ binderhub:
         nodeAffinity:
           matchNodePurpose: require
     singleuser:
+      # to allow a scaleup event to finish in worst case scenario
+      # which will be required without placeholders
+      startTimeout: 1200
       image:
         # this image is not supposed to be started, but it's
         # nice to get it pulled ahead of time to reduce pull
