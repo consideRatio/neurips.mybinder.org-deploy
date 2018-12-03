@@ -4,6 +4,7 @@ letsencrypt:
   contactEmail: erik.i.sundell@gmail.com
 
 # Default values: https://github.com/jupyterhub/binderhub/blob/master/helm-chart/binderhub/values.yaml
+# MyBinder.org values: https://github.com/jupyterhub/mybinder.org-deploy/blob/master/mybinder/values.yaml
 binderhub:
   config:
     BinderHub:
