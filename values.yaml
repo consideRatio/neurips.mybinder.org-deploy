@@ -60,14 +60,19 @@ binderhub:
     prePuller:
       continuous:
         enabled: true
-      #using this as singleuser's image instead as that will always be pulled
-      #extraImages:
-      #  demo1:
-      #    name: some-demo-image
-      #    tag: a-tag
-      #  demo2:
-      #    name: some-demo-image
-      #    tag: a-tag
+      # using this as singleuser's image instead as that will always be pulled
+      extraImages:
+        # an init-container that we use
+        # see: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues/1046
+        initImage:
+          name: minrk/tc-init
+          tag: 0.0.4
+        #demo1:
+        #  name: some-demo-image
+        #  tag: a-tag
+        #demo2:
+        #  name: some-demo-image
+        #  tag: a-tag
 
     hub:
       extraConfig: {}
