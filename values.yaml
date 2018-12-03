@@ -11,6 +11,14 @@ binderhub:
       hub_url: 'https://hub.neurips.mybinder.org'
       use_registry: true
       image_prefix: gcr.io/binder-prod/neurips-
+      about_message: |
+        <p>mybinder.org is public infrastructure operated by the <a href="https://jupyterhub-team-compass.readthedocs.io/en/latest/team.html#binder-team">Binder Project team</a>.<br /><br />
+        This is a temporary deployment for NeurIPS 2019 and will stop existing after the conference is over.<br /><br />
+        The Binder Project is a member of <a href="https://jupyter.org">Project Jupyter</a>, which is a fiscally
+        sponsored project of <a href="https://numfocus.org/">NumFocus</a>, a US 501c3 non-profit.<br /><br />
+        For abuse please email: <a href="mailto:binder-team@googlegroups.com">binder-team@googlegroups.com</a>, to report a
+        security vulnerability please see: <a href="https://mybinder.readthedocs.io/en/latest/faq.html#where-can-i-report-a-security-issue">Where can I report a security issue</a><br /><br />
+        For more information about the Binder Project, see <a href="https://docs.mybinder.org/about">the About Binder page</a></p>
 
   service:
     type: ClusterIP
@@ -36,8 +44,8 @@ binderhub:
       # with the proxy check-routes interval of five minutes
       every: 660
       timeout: 600
-      # maxAge is 6 hours: 6 * 3600 = 21600
-      maxAge: 21600
+      # maxAge is 2 hours: 2 * 3600 = 7200
+      maxAge: 7200
     prePuller:
       continuous:
         enabled: true
@@ -52,6 +60,7 @@ binderhub:
 
     hub:
       extraConfig: {}
+      activeServerLimit: 30
     proxy:
       service:
         type: ClusterIP
