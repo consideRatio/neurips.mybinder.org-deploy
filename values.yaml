@@ -65,7 +65,7 @@ binderhub:
         # an init-container that we use
         # It's only 3MB, ah well...
         # see: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues/1046
-        initImage:
+        init-image:
           name: minrk/tc-init
           tag: 0.0.4
         #demo1:
