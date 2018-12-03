@@ -85,6 +85,22 @@ binderhub:
       # to allow a scaleup event to finish in worst case scenario
       # which will be required without placeholders
       startTimeout: 1200
+      initContainers:
+        - name: tc-init
+          image: minrk/tc-init:0.0.4
+          env:
+            - name: WHITELIST_CIDR
+              value: 10.0.0.0/8
+            - name: EGRESS_BANDWIDTH
+              value: 1mbit
+          securityContext:
+            # capabilities.add seems to be disabled
+            # by the `runAsUser: 1000` in the pod-level securityContext
+            # unless we explicitly run as root
+            runAsUser: 0
+            capabilities:
+              add:
+                - NET_ADMIN
       storage:
         # allows us to configure jupyter notebook
         extraVolumes:
