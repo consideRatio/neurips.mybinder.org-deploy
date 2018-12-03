@@ -38,7 +38,7 @@ binderhub:
           - neurips.mybinder.org
 
   networkPolicy:
-    enabled: true
+    enabled: false
     egress:
       tcpPorts:
         - 80 # http
@@ -79,12 +79,12 @@ binderhub:
       extraConfig: {}
       activeServerLimit: 5
       networkPolicy:
-        enabled: true
+        enabled: false
     proxy:
       service:
         type: ClusterIP
       networkPolicy:
-        enabled: true
+        enabled: false
     ingress:
       enabled: true
       annotations:
@@ -132,7 +132,7 @@ binderhub:
               add:
                 - NET_ADMIN
       networkPolicy:
-        enabled: true
+        enabled: false
         egress: []
       storage:
         # allows us to configure jupyter notebook
