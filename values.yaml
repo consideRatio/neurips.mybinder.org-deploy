@@ -31,6 +31,13 @@ binderhub:
 
   # Default values: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml
   jupyterhub:
+    cull:
+      # cull every 11 minutes so it is out of phase
+      # with the proxy check-routes interval of five minutes
+      every: 660
+      timeout: 600
+      # maxAge is 6 hours: 6 * 3600 = 21600
+      maxAge: 21600
     prePuller:
       continuous:
         enabled: true
@@ -78,6 +85,21 @@ binderhub:
       # to allow a scaleup event to finish in worst case scenario
       # which will be required without placeholders
       startTimeout: 1200
+      storage:
+        # allows us to configure jupyter notebook
+        extraVolumes:
+          - name: etc-jupyter
+            configMap:
+              name: user-etc-jupyter
+          - name: etc-jupyter-templates
+            configMap:
+              name: user-etc-jupyter-templates
+        extraVolumeMounts:
+          - name: etc-jupyter
+            mountPath: /etc/jupyter
+          - name: etc-jupyter-templates
+            mountPath: /etc/jupyter/templates
+
       image:
         # this image is not supposed to be started, but it's
         # nice to get it pulled ahead of time to reduce pull
@@ -95,6 +117,27 @@ binderhub:
           "nvidia.com/gpu": 1
         guarantees:
           "nvidia.com/gpu": 1
+
+# these config files will be mounted on the user pods storage
+etcJupyter:
+  jupyter_notebook_config.json:
+    NotebookApp:
+      # shutdown the server after no activity
+      shutdown_no_activity_timeout: 600
+
+    # if a user leaves a notebook with a running kernel,
+    # the effective idle timeout will typically be CULL_TIMEOUT + CULL_KERNEL_TIMEOUT
+    # as culling the kernel will register activity,
+    # resetting the no_activity timer for the server as a whole
+    MappingKernelManager:
+      # shutdown kernels after no activity
+      cull_idle_timeout: 600
+      # check for idle kernels this often
+      cull_interval: 60
+      # a kernel with open connections but no activity still counts as idle
+      # this is what allows us to shutdown servers
+      # when people leave a notebook open and wander off
+      cull_connected: true
 
 # Default values: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml
 nginx-ingress:
