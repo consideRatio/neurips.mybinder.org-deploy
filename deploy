@@ -9,6 +9,9 @@ PROJECT=binder-prod
 # Helm details
 NAMESPACE=neurips
 RELEASE=neurips
+# NOTE: this is the path of the meta-chart, referencing the
+# other charts as dependencies, see the requirements.yaml
+# file to update these dependencies!
 CHART_LOCAL_PATH="."
 TIMEOUT=900
 

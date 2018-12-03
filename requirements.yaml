@@ -12,5 +12,5 @@ dependencies:
   # https://github.com/jupyterhub/binderhub
   # https://jupyterhub.github.io/helm-chart/
   - name: binderhub
-    version: "0.2.0-5be4d08"
+    version: "0.2.0-58e8ae9"
     repository: "https://jupyterhub.github.io/helm-chart"

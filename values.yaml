@@ -30,6 +30,10 @@ binderhub:
 
   # Default values: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml
   jupyterhub:
+    hub:
+      extraConfig:
+        startup: |-
+          c.Spawner.cmd = ['jupyter-labhub']
     proxy:
       service:
         type: ClusterIP
@@ -45,13 +49,27 @@ binderhub:
         - secretName: hub-neurips-mybinder-org-tls
           hosts:
             - hub.neurips.mybinder.org
-    scheduling: {}
-      #podPriority:
-      #  enabled: true
-      #userScheduler:
-      #  enabled: true
-    singleuser: {}
-      # extraConfig: profile_list etc...
+    scheduling:
+      podPriority:
+        enabled: true
+      userScheduler:
+        enabled: true
+      userPods:
+        nodeAffinity:
+          matchNodePurpose: require
+      corePods:
+        nodeAffinity:
+          matchNodePurpose: require
+    singleuser:
+      defaultUrl: "/lab"
+      extraEnv:
+        NBGITPULLER_APP: lab
+      memory:
+        limit: 16G
+        guarantee: 0.5G
+      cpu:
+        limit: 4
+        guarantee: 0.05
 
 # Default values: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml
 nginx-ingress:
