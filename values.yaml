@@ -60,7 +60,7 @@ binderhub:
         replicas: 0
       userPods:
         nodeAffinity:
-          matchNodePurpose: require
+          matchNodePurpose: prefer
       corePods:
         nodeAffinity:
           matchNodePurpose: require
