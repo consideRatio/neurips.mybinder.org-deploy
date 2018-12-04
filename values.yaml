@@ -207,9 +207,9 @@ nginx-ingress:
       # > gcloud compute addresses list
       # ... and assigned the IP to the field below
       loadBalancerIP: 35.190.132.172
-  config:
-    # Allow POSTs of upto 64MB, for large notebook support.
-    proxy-body-size: 64m
+    config:
+      # Allow POSTs of upto 64MB, for large notebook support.
+      proxy-body-size: 64m
 
 # Default values: https://github.com/helm/charts/blob/master/stable/cert-manager/values.yaml
 cert-manager:
