@@ -59,6 +59,13 @@ binderhub:
       maxAge: 7200
     prePuller:
       continuous:
+        # WARNING: The following toleration was manually added with
+        # kubectl edit ds continuous-image-puller
+        #
+        #   tolerations:
+        #   - effect: NoSchedule
+        #     key: nvidia.com/gpu
+        #     operator: Exists
         enabled: true
       # using this as singleuser's image instead as that will always be pulled
       extraImages:
