@@ -78,9 +78,9 @@ binderhub:
         demo1:
           name: gcr.io/binder-prod/neurips-jzf2101-2dshap-8561f0
           tag: 4572eb360937c90a3fe92649f89ec030ca293205
-        demo2:
-          name: gcr.io/binder-prod/neurips-jzf2101-2dtutorial-66ab00
-          tag: d8f23c902ae59b0a59515aa8c27cc65a5cd7956d
+        #demo2:
+        #  name: gcr.io/binder-prod/neurips-jzf2101-2dtutorial-66ab00
+        #  tag: d8f23c902ae59b0a59515aa8c27cc65a5cd7956d
         demo3:
           name: gcr.io/binder-prod/neurips-jzf2101-2dgan-5ftutorial-54d291
           tag: a8f7b8e357e8bbd4b7bdad7a23b9691689c18c3c
@@ -118,7 +118,7 @@ binderhub:
         enabled: true
       userPlaceholder:
         enabled: true
-        replicas: 0
+        replicas: 16
       userPods:
         nodeAffinity:
           matchNodePurpose: prefer
@@ -170,11 +170,11 @@ binderhub:
         name: buildpack-deps
         tag: bionic
       memory:
-        limit: 13G
-        guarantee: 1G
+        limit: 20G
+        guarantee: 4G
       cpu:
-        limit: 2
-        guarantee: 0.05
+        limit: 8
+        guarantee: 0.9
       extraResource:
         limits:
           "nvidia.com/gpu": 1
