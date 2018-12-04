@@ -76,7 +76,9 @@ binderhub:
         #  tag: a-tag
 
     hub:
-      extraConfig: {}
+      extraConfig:
+        neverRestart: |
+          c.KubeSpawner.extra_pod_config.update({'restart_policy': 'Never'})
       activeServerLimit: 5
       networkPolicy:
         enabled: false
