@@ -79,7 +79,7 @@ binderhub:
       extraConfig:
         neverRestart: |
           c.KubeSpawner.extra_pod_config.update({'restart_policy': 'Never'})
-      activeServerLimit: 5
+      activeServerLimit: 100
       networkPolicy:
         enabled: false
     proxy:
