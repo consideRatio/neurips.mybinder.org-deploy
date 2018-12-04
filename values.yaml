@@ -77,10 +77,13 @@ binderhub:
           tag: 0.0.4
         demo1:
           name: gcr.io/binder-prod/neurips-jzf2101-2dshap-8561f0
-          tag: 9cc99c17e259e4a28b07202c99c407e446084940
+          tag: 4572eb360937c90a3fe92649f89ec030ca293205
         demo2:
           name: gcr.io/binder-prod/neurips-jzf2101-2dtutorial-66ab00
           tag: d8f23c902ae59b0a59515aa8c27cc65a5cd7956d
+        demo3:
+          name: gcr.io/binder-prod/neurips-jzf2101-2dgan-5ftutorial-54d291
+          tag: a8f7b8e357e8bbd4b7bdad7a23b9691689c18c3c
 
     hub:
       extraConfig:
